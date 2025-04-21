@@ -1,17 +1,16 @@
-taskwise/
-├── __init__.py            # Initializes the package
-├── main.py                # Starts the app and connects modules
-├── task_manager.py        # Task and TaskManager logic
-├── reminder_system.py     # Email/desktop reminder system
-├── collaboration.py       # Group task coordination
-├── database.py            # SQLite database functions
-├── gui.py                 # Tkinter GUI interface
-
-tests/
-├── test_task_manager.py
-├── test_reminder_system.py
-├── test_collaboration.py
-├── test_database.py
-
-requirements.txt
-README.md
+TaskWise/
+  taskwise/
+    __init__.py            # Initializes the package
+    main.py                # Entry point; initializes and runs the app
+    task_manager.py        # Contains Task and TaskManager classes
+    reminder_system.py     # Sends email/desktop reminders
+    collaboration.py       # Manages group task assignments
+    database.py            # SQLite operations
+    gui.py                 # Tkinter GUI
+  tests/
+    test_task_manager.py   # Unit tests for task management
+    test_reminder_system.py
+    test_collaboration.py
+    test_database.py
+  requirements.txt         # Project dependencies
+  README.md                # Project overview and setup
