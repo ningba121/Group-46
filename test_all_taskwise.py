@@ -4,7 +4,11 @@ import pytest
 from taskwise.task_manager import Task, TaskManager
 
 class TestTaskManager:
+    """ Unit tests for TaskManager and Task classes.
+    """
     def test_task_priority_validation(self):
+        """ Test the priority validation for tasks.
+        """
         valid_task = Task("Lab Report", "2024-05-18", "BIO 101", "Medium")
         assert valid_task.priority == "Medium"
 
@@ -13,6 +17,8 @@ class TestTaskManager:
         assert "Invalid priority" in str(exc_info.value)
 
     def test_task_management_flow(self):
+        """ Test the flow of adding, retrieving, and deleting tasks.
+        """
         manager = TaskManager()
         test_task = Task(
             "Midterm Study", 
@@ -33,7 +39,11 @@ import pytest
 from taskwise.database import DatabaseHandler
 
 class TestDatabaseHandler:
+    """ Unit tests for DatabaseHandler class.
+    """
     def test_table_creation(self):
+        """ Test the creation of the tasks table.
+        """
         db = DatabaseHandler(":memory:")
         db.create_task_table()
         cursor = db.connection.cursor()
@@ -47,6 +57,8 @@ class TestDatabaseHandler:
         assert columns == expected_columns
 
     def test_task_insertion(self):
+        """ Test inserting a task into the database.
+        """
         db = DatabaseHandler(":memory:")
         db.create_task_table()
         test_task = ("Final Exam Prep", "2024-05-25", "CHEM 101", "High")
@@ -65,8 +77,12 @@ from taskwise.task_manager import Task
 from taskwise.reminder_system import Reminder
 
 class TestReminderSystem:
+    """ Unit tests for Reminder system.
+    """
     @patch("taskwise.reminder_system.smtplib.SMTP")
     def test_email_notification(self, mock_smtp):
+        """ Test the email notification system.
+        """
         mock_server = Mock()
         mock_smtp.return_value = mock_server
         future_date = (datetime.now() + timedelta(hours=36)).strftime("%Y-%m-%d")
@@ -78,6 +94,8 @@ class TestReminderSystem:
         mock_server.sendmail.assert_called_once()
 
     def test_past_due_reminder(self):
+        """ Test the reminder for a task that is past the due date.
+        """
         reminder = Reminder()
         expired_task = Task("Late Submission", "2023-11-01", "PHYS 102", "Medium")
         with pytest.raises(ValueError) as exc_info:
@@ -90,7 +108,11 @@ from taskwise.collaboration import GroupProject
 from taskwise.task_manager import Task
 
 class TestCollaboration:
+    """ Unit tests for Collaboration class.
+    """
     def test_group_task_assignment(self):
+        """ Test the assignment of tasks to group members.
+        """
         project = GroupProject(project_id=1001, project_name="AI Research Paper")
         task = Task("Literature Review", "2024-06-15", "CS 505", "High")
         project.assign_task(task, "john.doe@university.edu")
@@ -100,6 +122,8 @@ class TestCollaboration:
         assert assignment["assignee"] == "john.doe@university.edu"
 
     def test_progress_tracking(self):
+        """ Test the progress tracking of group tasks.
+        """
         project = GroupProject(project_id=1002, project_name="Chemistry Lab")
         tasks = [
             Task("Experiment Setup", "2024-05-20", "CHEM 201", "Medium"),
