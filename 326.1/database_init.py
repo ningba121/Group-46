@@ -5,11 +5,17 @@ class DatabaseInitializer:
     """Handles SQLite database connection and table creation."""
 
     def __init__(self, db_name="schedules.db"):
+        """ Initialize the database with a given name.
+        Args:
+            db_name (str): The name of the database file.
+        """
         self.db_name = db_name
         self.connection = None
 
     def connect(self):
-        """Establish a connection to the SQLite database and return a cursor."""
+        """Establish a connection to the SQLite database and return a cursor.
+        Returns:
+            cursor connected to SQLite database."""
         self.connection = sqlite3.connect(self.db_name)
         return self.connection.cursor()
 
