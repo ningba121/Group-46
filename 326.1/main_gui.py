@@ -72,7 +72,10 @@ class ScheduleApp(QWidget):
     """Main application for managing schedules and user interactions."""
 
     def __init__(self, user):
-        """Initialize the ScheduleApp window and set up necessary components."""
+        """Initialize the ScheduleApp window and set up necessary components.
+        Args:
+            user (tuple): User information, including user ID and email.
+        """
         super().__init__()
         self.user = user
         self.uid = user[0]
@@ -100,7 +103,10 @@ class ScheduleApp(QWidget):
         self.blink_timer.timeout.connect(self.blink_tray)
 
     def on_tray_icon_activated(self, reason):
-        """Handle the tray icon activation event."""
+        """Handle the tray icon activation event.
+        Args:
+            reason: The reason for the activation.
+        """
         if reason == QSystemTrayIcon.Trigger:
             self.show()
             self.blink_timer.stop()
@@ -233,7 +239,10 @@ class ScheduleApp(QWidget):
             self.table.setCellWidget(i, 6, w)
 
     def open_dialog(self, sid=None):
-        """Open the dialog for adding or editing a schedule."""
+        """Open the dialog for adding or editing a schedule.
+        Args:
+            sid (int, optional): Schedule ID for editing. Defaults to None.
+        """
         dlg = AddEditDialog(self, sid, self.use_dark_theme)
         if dlg.exec_() == QDialog.Accepted:
             title, end, alert, note, conf = dlg.get_data()
@@ -254,13 +263,19 @@ class ScheduleApp(QWidget):
             self.reload_table()
 
     def delete_by_id(self, sid):
-        """Delete a schedule by its ID."""
+        """Delete a schedule by its ID.
+        Args:
+            sid (int): Schedule ID to delete.
+        """
         self.cursor.execute("DELETE FROM schedules WHERE id=?", (sid,))
         self.conn.commit()
         self.reload_table()
 
     def confirm_by_id(self, sid):
-        """Mark a schedule as confirmed by its ID."""
+        """Mark a schedule as confirmed by its ID.
+        Args:
+            sid (int): Schedule ID to confirm.
+        """
         self.cursor.execute("UPDATE schedules SET is_confirm=1 WHERE id=?", (sid,))
         self.conn.commit()
         self.reload_table()
@@ -289,7 +304,12 @@ class AddEditDialog(QDialog):
     """Dialog for adding or editing a schedule entry."""
 
     def __init__(self, parent=None, sid=None, use_dark_theme=False):
-        """Initialize the dialog with schedule data if editing an existing entry."""
+        """Initialize the dialog with schedule data if editing an existing entry.
+        Args:
+            parent (QWidget): Parent widget. Defaults to None.
+            sid (int): Schedule ID for editing. Defaults to None.
+            use_dark_theme (bool): Flag for dark theme. Defaults to False.
+        """
         super().__init__(parent)
         self.sid = sid
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
