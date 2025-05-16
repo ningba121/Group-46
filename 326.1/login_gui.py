@@ -12,7 +12,9 @@ from main_gui import ScheduleApp
 
 
 def get_db_connection():
-    """Establishes a connection to the local SQLite database."""
+    """Establishes a connection to the local SQLite database.
+    Returns:
+        sqlite3 connection."""
     return sqlite3.connect("schedules.db")
 
 
@@ -20,6 +22,8 @@ class LoginWindow(QWidget):
     """The main login window for user authentication."""
 
     def __init__(self):
+        """Initializes the login window and its componentsand sets the window title and size.
+        """
         super().__init__()
         self.setWindowTitle('Schedule Manager')
         self.setFixedSize(400, 300)
@@ -120,7 +124,12 @@ class LoginWindow(QWidget):
         self.setLayout(main_layout)
 
     def hash_password(self, password):
-        """Hashes the password with a predefined salt using SHA256."""
+        """Hashes the password with a predefined salt using SHA256.
+        Args:
+            password (str): The password to hash.
+        Returns:
+            str: The hashed password.
+        """
         salt = "mysalt12$%&^3"
         return hashlib.sha256((salt + password).encode('utf-8')).hexdigest()
 
@@ -131,7 +140,10 @@ class LoginWindow(QWidget):
             QMessageBox.information(self, "Success", "Registration successful. Please log in.")
 
     def login(self):
-        """Validates user credentials and launches the main schedule application if successful."""
+        """Validates user credentials and launches the main schedule application if successful.
+        Raises:
+            ValueError: If the email or password is empty.
+        """
         email = self.username_input.text().strip()
         password = self.password_input.text().strip()
 
@@ -163,6 +175,10 @@ class RegisterDialog(QDialog):
     """Registration dialog for new users."""
 
     def __init__(self, parent=None):
+        """Initializes the registration dialog and its components.
+        Args:
+            parent (QWidget): The parent widget. Defaults to None.
+        """
         super().__init__(parent)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("Register New User")
@@ -240,13 +256,21 @@ class RegisterDialog(QDialog):
         self.setLayout(layout)
 
     def is_valid_email(self, email):
-        """Validates the email format using regex."""
+        """Validates the email format using regex.
+        Args:
+            email (str): The email address to validate.
+        Returns:
+            bool: True if the email is valid, False otherwise.
+        """
         pattern = r'^[\w.-]+@[\w.-]+\.\w{2,4}$'
         return re.match(pattern, email) is not None
 
     def hash_password(self, password):
-        """
-        Hashes a password with a salt.
+        """ Hashes a password with a salt.
+        Args:
+            password (str): The password to hash.
+        Returns:
+            str: The hashed password.
         """
         salt = "mysalt12$%&^3"
         return hashlib.sha256((salt + password).encode('utf-8')).hexdigest()
